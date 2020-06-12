@@ -10,46 +10,48 @@ class Nodo
         Nodo *anterior;
         Nodo *arriba;
         Nodo *abajo;
-        int fila;
-        int columna;
+        Nodo *frente;
+        Nodo *detras;
+        string departamento;
+        string empresa;
         int multiplicador;
         string letra;
         int tamanio;
     public:
-        //crear cabeceras de filas y columnas
+        //crear cabeceras de departamentos y empresas
 
-        Nodo(string letra, int fila, int columna, int multi)
-        {//anio es filas, mes es columnas
-            this->fila=fila;
-            this->columna=columna;
+        Nodo(string letra, string departamento, string empresa, int multi)
+        {//anio es departamentos, mes es empresas
+            this->departamento=departamento;
+            this->empresa=empresa;
             this->letra=letra;
             this->multiplicador=multi;
-            siguiente=anterior=arriba=abajo=0;
+            siguiente=anterior=arriba=abajo=detras=frente=0;
         }
-         Nodo(int dato, bool esFila)
+         Nodo(string dato, bool esdepartamento)
         {
-            if(esFila)
+            if(esdepartamento)
             {
-            this->fila=dato;
-            this->columna=0;
+            this->departamento=dato;
+            this->empresa="";
             this->letra="";
             this->multiplicador=0;
-            siguiente=anterior=arriba=abajo=0;
+            siguiente=anterior=arriba=abajo=detras=frente=0;
             }else{
-            this->fila=0;
-            this->columna=dato;
+            this->departamento="";
+            this->empresa=dato;
             this->letra="";
             this->multiplicador=0;
-            siguiente=anterior=arriba=abajo=0;
+            siguiente=anterior=arriba=abajo=detras=frente=0;
             }
         }
-        int getColumna()
+        string getEmpresa()
         {
-            return columna;
+            return empresa;
         }
-        int getFila()
+        string getDepartamento()
         {
-            return fila;
+            return departamento;
         }
         int getMuti()
         {
@@ -59,12 +61,12 @@ class Nodo
         {
             return letra;
         }
-        void setColumna(int f)
+        void setEmpresa(string f)
         {
-            columna=f;
-        }void setFila(int f)
+            empresa=f;
+        }void setDepartamento(string f)
         {
-            fila=f;
+            departamento=f;
         }void setMulti(int f)
         {
            multiplicador=f;
@@ -89,9 +91,25 @@ class Nodo
         {
             return abajo;
         }
+        Nodo *getFrente()
+        {
+            return frente;
+        }
+        Nodo *getDetras()
+        {
+            return detras;
+        }
         void setSiguiente(Nodo *siguiente)
         {
             this->siguiente=siguiente;
+        }
+        void setFrente(Nodo *frente)
+        {
+            this->frente=frente;
+        }
+         void setDetras(Nodo *detras)
+        {
+            this->detras=detras;
         }
         void setAnterior(Nodo *anterior)
         {
@@ -152,7 +170,7 @@ class CuboDisperso
     {
         raiz= new Nodo("raiz",0,0,0);
     }
-    Nodo *busquedaNodo(int columna, int fila)
+    Nodo *busquedaNodo(string empresa, string departamento)
 {
     bool bandera=false;
         Nodo *retorno=0;
@@ -161,7 +179,7 @@ class CuboDisperso
     {
         Nodo *aux2=raiz;
         while(aux2!=0){
-            if(aux2->getColumna()==columna && aux2->getFila()==fila)
+            if(aux2->getEmpresa()==empresa && aux2->getDepartamento()==departamento)
                 {
                     retorno=aux2;
                     bandera=true;
@@ -175,33 +193,33 @@ class CuboDisperso
     }
     return retorno;
 }
-Nodo *crearColumna(int columna)
+Nodo *crearempresa(string empresa)
 {
     Nodo *cabeza_col= raiz;
-    Nodo *col_insertada= insertarColumna(new Nodo(columna,false), cabeza_col);
+    Nodo *col_insertada= insertarempresa(new Nodo(empresa,false), cabeza_col);
     return col_insertada;
 }
-Nodo *crearFila(int fila)
+Nodo *creardepartamento(string departamento)
 {
-    Nodo *cabezaFila= raiz;
-    Nodo *filaInsertada= insertarFila(new Nodo(fila,true),cabezaFila);
-    return filaInsertada;
+    Nodo *cabezadepartamento= raiz;
+    Nodo *departamentoInsertada= insertardepartamento(new Nodo(departamento,true),cabezadepartamento);
+    return departamentoInsertada;
 }
 void imprimir()
 {
     Nodo *aux= raiz;
     while(aux!=0){
 
-            string fil="C"+to_string(aux->getFila());
-            string col="F"+to_string(aux->getColumna());
+            string fil="C"+aux->getDepartamento();
+            string col="F"+aux->getEmpresa();
            /* if(aux->getAnterior()!=0){
-                string filanterior="C"+to_string(aux->getAnterior()->getFila());
-            string colanterior="F"+to_string(aux->getAnterior()->getColumna());
-            enlaces+="\""+fil+col+"\" -> \""+filanterior+colanterior+"\"\n";
+                string departamentonterior="C"+to_string(aux->getAnterior()->getDepartamento());
+            string colanterior="F"+to_string(aux->getAnterior()->getEmpresa());
+            enlaces+="\""+fil+col+"\" -> \""+departamentonterior+colanterior+"\"\n";
             }
             if(aux->getSiguiente()!=0){
-                string filsiguiente="C"+to_string(aux->getSiguiente()->getFila());
-            string colsiguiente="F"+to_string(aux->getSiguiente()->getColumna());
+                string filsiguiente="C"+to_string(aux->getSiguiente()->getDepartamento());
+            string colsiguiente="F"+to_string(aux->getSiguiente()->getEmpresa());
             enlaces+="\""+fil+col+"\" -> \""+filsiguiente+colsiguiente+"\"\n";
             }*/
             //cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+fil+","+col+"\"];\n";
@@ -210,44 +228,44 @@ void imprimir()
         string ranki="";
         while(aux2!=0)
         {
-  string fil="C"+to_string(aux2->getFila());
-            string col="F"+to_string(aux2->getColumna());
+  string fil="C"+aux2->getDepartamento();
+            string col="F"+aux2->getEmpresa();
             if(aux2->getArriba()!=0){
-                string filanterior="C"+to_string(aux2->getArriba()->getFila());
-            string colanterior="F"+to_string(aux2->getArriba()->getColumna());
-            enlaces+="\""+fil+col+"\" -> \""+filanterior+colanterior+"\"\n";
+                string departamentonterior="C"+aux2->getArriba()->getDepartamento();
+            string colanterior="F"+aux2->getArriba()->getEmpresa();
+            enlaces+="\""+fil+col+"\" -> \""+departamentonterior+colanterior+"\"\n";
             }
             if(aux2->getAbajo()!=0){
-                string filsiguiente="C"+to_string(aux2->getAbajo()->getFila());
-            string colsiguiente="F"+to_string(aux2->getAbajo()->getColumna());
+                string filsiguiente="C"+aux2->getAbajo()->getDepartamento();
+            string colsiguiente="F"+aux2->getAbajo()->getEmpresa();
             enlaces+="\""+fil+col+"\" -> \""+filsiguiente+colsiguiente+"\"\n";
             }
             if(aux2->getAnterior()!=0){
-                string filanterior="C"+to_string(aux2->getAnterior()->getFila());
-            string colanterior="F"+to_string(aux2->getAnterior()->getColumna());
-            enlaces+="\""+fil+col+"\" -> \""+filanterior+colanterior+"\"\n";
+                string departamentonterior="C"+aux2->getAnterior()->getDepartamento();
+            string colanterior="F"+aux2->getAnterior()->getEmpresa();
+            enlaces+="\""+fil+col+"\" -> \""+departamentonterior+colanterior+"\"\n";
             }
             if(aux2->getSiguiente()!=0){
-                string filsiguiente="C"+to_string(aux2->getSiguiente()->getFila());
-            string colsiguiente="F"+to_string(aux2->getSiguiente()->getColumna());
+                string filsiguiente="C"+aux2->getSiguiente()->getDepartamento();
+            string colsiguiente="F"+aux2->getSiguiente()->getEmpresa();
             enlaces+="\""+fil+col+"\" -> \""+filsiguiente+colsiguiente+"\"\n";
             }
             if(aux2->getMuti()==2)
             {
-            cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+aux2->getLetra()+"\" style=filled fillcolor=yellow group="+to_string(aux2->getColumna())+"];\n";
+            cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+aux2->getLetra()+"\" style=filled fillcolor=yellow group="+aux2->getEmpresa()+"];\n";
             }
             else if(aux2->getMuti()==3)
             {
-               cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+aux2->getLetra()+"\" style=filled fillcolor=green group="+to_string(aux2->getColumna())+"];\n";
+               cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+aux2->getLetra()+"\" style=filled fillcolor=green group="+aux2->getEmpresa()+"];\n";
             }
             else if(aux2->getMuti()==1){
-                cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+aux2->getLetra()+"\" style=filled fillcolor=blue group="+to_string(aux2->getColumna())+"];\n";
+                cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+aux2->getLetra()+"\" style=filled fillcolor=blue group="+aux2->getEmpresa()+"];\n";
             }else{
-                if(aux2->getFila()==0 && aux2->getColumna()==0){
+                if(aux2->getDepartamento()=="" && aux2->getEmpresa()==""){
                         cuerpo+="\""+fil+col+"\""+"[shape= record label=\"Raiz\" style=filled fillcolor=gray group=1];\n";
                 }else{
-                    if(aux2->getFila()==0)
-                        cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+fil+","+col+"\" style=filled fillcolor=gray group="+to_string(aux2->getColumna())+"];\n";
+                    if(aux2->getDepartamento()=="")
+                        cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+fil+","+col+"\" style=filled fillcolor=gray group="+aux2->getEmpresa()+"];\n";
                     else
                         cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+fil+","+col+"\" style=filled fillcolor=gray group= 1];\n";
                    // cout<<fil<<endl;
@@ -263,53 +281,53 @@ void imprimir()
     aux=aux->getSiguiente();
         }
     }
-void crearNodo(string nombre, int multi, int fila, int columna)
+void crearNodo(string nombre, int multi, string departamento, string empresa)
 {
-    Nodo *nuevo= new Nodo(nombre,fila,columna,multi);
-    Nodo *NodoColumna= buscarColumna(columna);
-    Nodo *NodoFila= buscarFila(fila);
-    if(NodoColumna==0 && NodoFila==0){
+    Nodo *nuevo= new Nodo(nombre,departamento,empresa,multi);
+    Nodo *Nodoempresa= buscarempresa(empresa);
+    Nodo *Nododepartamento= buscardepartamento(departamento);
+    if(Nodoempresa==0 && Nododepartamento==0){
         //ninguno esta creado
-        NodoColumna= crearColumna(columna);
-        NodoFila= crearFila(fila);
-        nuevo= insertarColumna(nuevo,NodoFila);
-        nuevo= insertarFila(nuevo,NodoColumna);
+        Nodoempresa= crearempresa(empresa);
+        Nododepartamento= creardepartamento(departamento);
+        nuevo= insertarempresa(nuevo,Nododepartamento);
+        nuevo= insertardepartamento(nuevo,Nodoempresa);
     }
-    else if(NodoColumna==0 && NodoFila!=0)
+    else if(Nodoempresa==0 && Nododepartamento!=0)
     {
-        NodoColumna= crearColumna(columna);
-        nuevo= insertarColumna(nuevo,NodoFila);
-        nuevo= insertarFila(nuevo,NodoColumna);
-        //solo esta creada la fila
+        Nodoempresa= crearempresa(empresa);
+        nuevo= insertarempresa(nuevo,Nododepartamento);
+        nuevo= insertardepartamento(nuevo,Nodoempresa);
+        //solo esta creada la departamento
     }
-    else if(NodoColumna!=0 && NodoFila==0)
+    else if(Nodoempresa!=0 && Nododepartamento==0)
     {
-        //solo esta creada la columna
-        NodoFila= crearFila(fila);
-        nuevo= insertarColumna(nuevo,NodoFila);
-        nuevo= insertarFila(nuevo,NodoColumna);
+        //solo esta creada la empresa
+        Nododepartamento= creardepartamento(departamento);
+        nuevo= insertarempresa(nuevo,Nododepartamento);
+        nuevo= insertardepartamento(nuevo,Nodoempresa);
     }
-    else if(NodoColumna!=0 && NodoFila!=0)
+    else if(Nodoempresa!=0 && Nododepartamento!=0)
     {
         //estan creados los dos
-        nuevo= insertarColumna(nuevo,NodoFila);
-        nuevo= insertarFila(nuevo,NodoColumna);
+        nuevo= insertarempresa(nuevo,Nododepartamento);
+        nuevo= insertardepartamento(nuevo,Nodoempresa);
     }
 }
-Nodo *insertarColumna(Nodo *nuevo,Nodo *nodoFila)
+Nodo *insertarempresa(Nodo *nuevo,Nodo *nododepartamento)
 {
-    Nodo *aux= nodoFila;
+    Nodo *aux= nododepartamento;
     bool Flag= false;
      while(true)
     {
-        if(aux->getColumna() ==nuevo->getColumna())
+        if(aux->getEmpresa() ==nuevo->getEmpresa())
         {
-            aux->setFila(nuevo->getFila());
+            aux->setDepartamento(nuevo->getDepartamento());
             aux->setLetra(nuevo->getLetra());
             aux->setMulti(nuevo->getMuti());
             return aux;
         }
-        else if(aux->getColumna()>nuevo->getColumna())
+        else if(aux->getEmpresa()>nuevo->getEmpresa())
         {
             Flag= true;
             break;
@@ -334,20 +352,20 @@ Nodo *insertarColumna(Nodo *nuevo,Nodo *nodoFila)
     return nuevo;
 
 }
-Nodo *insertarFila(Nodo *nuevo,Nodo *nodoColumna)
+Nodo *insertardepartamento(Nodo *nuevo,Nodo *nodoempresa)
 {
-    Nodo *aux= nodoColumna;
+    Nodo *aux= nodoempresa;
     bool Flag= false;
     while(true)
     {
-        if(aux->getFila() ==nuevo->getFila())
+        if(aux->getDepartamento() ==nuevo->getDepartamento())
         {
-            aux->setColumna(nuevo->getColumna());
+            aux->setEmpresa(nuevo->getEmpresa());
             aux->setLetra(nuevo->getLetra());
             aux->setMulti(nuevo->getMuti());
             return aux;
         }
-        else if(aux->getFila()>nuevo->getFila())
+        else if(aux->getDepartamento()>nuevo->getDepartamento())
         {
             Flag= true;
             break;
@@ -372,41 +390,41 @@ Nodo *insertarFila(Nodo *nuevo,Nodo *nodoColumna)
     return nuevo;
 
 }
-Nodo *buscarColumna(int fila)
+Nodo *buscarempresa(string departamento)
 {
     Nodo *aux= raiz;
     if(raiz->getAbajo()!=0)
     {
         while(aux!=0)
         {
-            if(fila==aux->getFila())
+            if(departamento==aux->getDepartamento())
                 return aux;
             aux=aux->getAbajo();
         }
     }
     return aux;
 }
-Nodo *buscarFila(int columna)
+Nodo *buscardepartamento(string empresa)
 {
     Nodo *aux= raiz;
     if(aux->getSiguiente()!=0)
     {
         while(aux!=0)
         {
-            if(columna==aux->getColumna())
+            if(empresa==aux->getEmpresa())
                 return aux;
             aux= aux->getSiguiente();
         }
     }
     return aux;
 }
-    /*Nodo *insertarFila(Nodo *nuevo, Nodo *fila);
-    Nodo *insertarColumna(Nodo *nuevo, Nodo *nodoColumna);
-    Nodo *crearFila(string fila);
-    Nodo *crearColumna(int columna);
-    Nodo *busquedaNodo(int columna, string fila);
-    Nodo *buscarColumna(int columna);//listo
-    Nodo *buscarFila(string fila);//listo
+    /*Nodo *insertardepartamento(Nodo *nuevo, Nodo *departamento);
+    Nodo *insertarempresa(Nodo *nuevo, Nodo *nodoempresa);
+    Nodo *creardepartamento(string departamento);
+    Nodo *crearempresa(string empresa);
+    Nodo *busquedaNodo(string empresa, string departamento);
+    Nodo *buscarempresa(string empresa);//listo
+    Nodo *buscardepartamento(string departamento);//listo
     void crearNodo(string nombre, int anio, string mes, ListaSimple<Cancion*> *canciones);*/
 };
 

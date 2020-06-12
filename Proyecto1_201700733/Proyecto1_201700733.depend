@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1592000810 source:a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\main.cpp
+	<iostream>
+	"EDD/Cola.h"
+	"EDD/ArbolAVL.h"
+	"EDD/CuboDisperso.h"
+
+1591609485 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\cola.h
+	<iostream>
+
+1592000797 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\arbolavl.h
+	<iostream>
+
+1592001422 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\cubodisperso.h
+	<iostream>
+
