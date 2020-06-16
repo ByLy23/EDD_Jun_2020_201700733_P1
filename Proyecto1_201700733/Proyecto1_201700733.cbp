@@ -36,6 +36,8 @@
 		</Compiler>
 		<Unit filename="Activo.cpp" />
 		<Unit filename="Activo.h" />
+		<Unit filename="EDD/Activo.cpp" />
+		<Unit filename="EDD/Activo.h" />
 		<Unit filename="EDD/Usuario.cpp" />
 		<Unit filename="EDD/Usuario.h" />
 		<Unit filename="Usuario.cpp" />

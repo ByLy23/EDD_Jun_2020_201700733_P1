@@ -7,16 +7,15 @@ using namespace std;
 class Usuario
 {
     public:
-        Usuario()
+Usuario()
 {
-
-    this->nombre="admin";
-    this->apellido="admin";
-    this->pass="admin";
-    this->empresa="admin";
-    this->departamento="admin";
-    this->username="admin";
-    this->arbolito= new ArbolBusqueda();
+    this->nombre="";
+    this->apellido="";
+    this->pass="";
+    this->empresa="";
+    this->departamento="";
+    this->username="";
+    this->arbolito= 0;
     //ctor
 }
 Usuario(string nombre,string apellido,string username, string pass, string departamento, string empresa)

@@ -6,7 +6,7 @@ using namespace std;
 
 
 
-CuboDisperso *cubito;
+CuboDisperso* cubito=new CuboDisperso();
 
 void moduloUsuario()
 {
@@ -14,11 +14,11 @@ int opcion=0;
     do{
             system("cls");
         cout<<"1. Agregar Activo"<<endl;
-        cout<<"2. Reporte Matriz Dispersa"<<endl;
-        cout<<"3. Reporte de Activos Disponibles por Departamento"<<endl;
-        cout<<"4. Reporte de Activos Disponibles por Empresa"<<endl;
-        cout<<"5. Reporte de Transacciones"<<endl;
-        cout<<"6. Reporte de Activos de un Usuario"<<endl;
+        cout<<"2. Eliminar Activo"<<endl;
+        cout<<"3. Modificar Activo"<<endl;
+        cout<<"4. Rentar Activo"<<endl;
+        cout<<"5. Activos Rentados"<<endl;
+        cout<<"6. Mis Activos Rentados"<<endl;
         cout<<"7. Cerrar Sesion"<<endl<<">>";
         cin>>opcion;
         switch(opcion)
@@ -62,7 +62,8 @@ void moduloRegistro()
     cout<<"Empresa"<<endl<<">>";
     cin>>empresa;
     cubito->crearNodo(new Usuario(nombre,apellido,usuario, contrasenia, departamento, empresa),departamento,empresa);
-    cout<<"Creado"<<endl;
+    cout<<"Registrado"<<endl;
+    system(0);
 }
 void moduloEliminarActivo()
 {
@@ -123,16 +124,18 @@ void moduloSesion(){
     cin>>departamento;
     cout<<"Empresa"<<endl<<">>";
     cin>>empresa;
-    Nodo *aux= cubito->busquedaNodo(usuario,contrasenia,departamento,empresa);
-    if(aux==0)
+    Nodo *aux= cubito->busquedaNodo(departamento,empresa,usuario,contrasenia);
+    if(aux!=0)
     {
-        string a;
-        cout<<"No existe el men"<<endl;
+        if(aux->getUser()->Getusername().compare(usuario)==0 && aux->getUser()->Getpass().compare(contrasenia)==0){
+        moduloAdmin();}
+        else if(aux->getUser()->Getusername().compare(usuario)==0 && aux->getUser()->Getpass().compare(contrasenia)==0){
+           moduloUsuario();
+        }
     }
-    else if(aux->getUser()->Getusername().compare("admin")==0 && aux->getUser()->Getpass().compare("admin")==0)
-        moduloAdmin();
     else
     {
+        cout<<"No existe el men"<<endl;
         //moduloUsuario
     }
 
@@ -146,7 +149,6 @@ void moduloSesion(){
 
 int main()
 {
-    cubito= new CuboDisperso();
     int sesion=0;
     do{
             system("cls");
@@ -155,5 +157,13 @@ int main()
     cin>>sesion;
     if(sesion==1)
         moduloSesion();
+        if(sesion==90)
+        {
+            //48 - 57 numeros
+            //65 - 90 letras mayusculas
+            //97 - 122 letras minusculas
+            Activo *holi= new Activo("uno","Uni");
+            return(0);
+        }
     }while(sesion!=2);
 }

@@ -39,14 +39,16 @@ class Nodo
         {
             if(esdepartamento)
             {
-            this->departamento=dato;
-            this->empresa="";
-            }else{
             this->departamento="";
             this->empresa=dato;
-            }
             this->miUser=0;
             siguiente=anterior=arriba=abajo=detras=frente=0;
+            }else{
+            this->departamento=dato;
+            this->empresa="";
+            this->miUser=0;
+            siguiente=anterior=arriba=abajo=detras=frente=0;
+            }
         }
         string getEmpresa()
         {
@@ -157,9 +159,9 @@ class CuboDisperso
     CuboDisperso()
     {
         Usuario *us= new Usuario("admin","admin","admin","admin","admin","admin");
-        raiz= new Nodo(us,"0","0");
+        raiz= new Nodo(us,"a","a");
     }
-    Nodo *busquedaNodo(string nombre, string contra,string empresa, string departamento)
+    Nodo *busquedaNodo(string empresa, string departamento,string nombre, string contra)
 {
     bool bandera=false;
         Nodo *retorno=0;
@@ -168,12 +170,21 @@ class CuboDisperso
     {
         Nodo *aux2=raiz;
         while(aux2!=0){
-            if(aux2->getUser()->Getempresa()==empresa && aux2->getUser()->Getdepartamento()==departamento && aux2->getUser()->Getusername()==nombre && aux2->getUser()->Getpass()==contra)
+            Nodo *aux3= aux2;
+            while(aux3!=0)
+            {
+                if(aux3->getEmpresa().compare(empresa)==0 && aux3->getDepartamento().compare(departamento)==0)
                 {
-                    retorno=aux2;
+                    retorno=aux3;
                     bandera=true;
-                    break;
+                    if(aux3->getUser()!=0)
+                    {
+                        if(aux3->getUser()->Getusername().compare(nombre)==0 && aux3->getUser()->Getpass().compare(contra)==0)
+                            break;
+                    }
                 }
+            aux3=aux3->getFrente();
+        }
                 aux2=aux2->getSiguiente();
         }
         if (bandera)
@@ -272,6 +283,7 @@ void crearNodo(Usuario *user,string departamento, string empresa)
         Nododepartamento= creardepartamento(departamento);
         nuevo= insertarempresa(nuevo,Nododepartamento);
         nuevo= insertardepartamento(nuevo,Nodoempresa);
+        cout<<"Crea uno areherheehehewherhsefher"<<endl;
     }
     else if(Nodoempresa==0 && Nododepartamento!=0)
     {
@@ -290,8 +302,20 @@ void crearNodo(Usuario *user,string departamento, string empresa)
     else if(Nodoempresa!=0 && Nododepartamento!=0)
     {
         //estan creados los dos
+        Nodo *busqueda= busquedaNodo(user->Getempresa(),user->Getdepartamento(),user->Getusername(),user->Getpass());
+        if(user->Getusername().compare(busqueda->getUser()->Getusername())==0)
+        {
+            string a;
+            cout<<"No se puede Registrar por nombre igual"<<endl;
+            cin>>a;
+        }else if(busqueda==0){
         nuevo= insertarempresa(nuevo,Nododepartamento);
         nuevo= insertardepartamento(nuevo,Nodoempresa);
+        }else{
+            busqueda->setFrente(nuevo);
+            nuevo->setDetras(busqueda);
+            busqueda=nuevo;
+        }
     }
 }
 Nodo *insertarempresa(Nodo *nuevo,Nodo *nododepartamento)
@@ -300,17 +324,17 @@ Nodo *insertarempresa(Nodo *nuevo,Nodo *nododepartamento)
     bool Flag= false;
      while(true)
     {
-        if(aux->getEmpresa() ==nuevo->getEmpresa())
+        if(aux->getEmpresa().compare(nuevo->getEmpresa())==0)
         {
             aux->setDepartamento(nuevo->getDepartamento());
             aux->setUser(nuevo->getUser());
-            return aux;
-        }
-        else if(aux->getEmpresa()>nuevo->getEmpresa())
-        {
             Flag= true;
+            return aux;
             break;
         }
+        /*else if(aux->getEmpresa().compare(nuevo->getEmpresa())<0)
+        {
+        }*/
         if(aux->getAbajo()!=0)
         {
             aux=aux->getAbajo();
@@ -337,17 +361,17 @@ Nodo *insertardepartamento(Nodo *nuevo,Nodo *nodoempresa)
     bool Flag= false;
     while(true)
     {
-        if(aux->getDepartamento() ==nuevo->getDepartamento())
+        if(aux->getDepartamento().compare(nuevo->getDepartamento())==0)
         {
             aux->setEmpresa(nuevo->getEmpresa());
             aux->setUser(nuevo->getUser());
-            return aux;
-        }
-        else if(aux->getDepartamento()>nuevo->getDepartamento())
-        {
             Flag= true;
+            return aux;
             break;
         }
+        /*else if(aux->getDepartamento().compare(nuevo->getDepartamento())<0)
+        {
+        }*/
         if(aux->getSiguiente()!=0)
         {
             aux=aux->getSiguiente();
@@ -371,16 +395,16 @@ Nodo *insertardepartamento(Nodo *nuevo,Nodo *nodoempresa)
 Nodo *buscarempresa(string departamento)
 {
     Nodo *aux= raiz;
-    if(raiz->getAbajo()!=0)
+    if(aux->getAbajo()!=0)
     {
         while(aux!=0)
         {
-            if(departamento==aux->getDepartamento())
+            if(aux->getDepartamento().compare(departamento)==0)
                 return aux;
             aux=aux->getAbajo();
         }
     }
-    return aux;
+    return 0;
 }
 Nodo *buscardepartamento(string empresa)
 {
@@ -389,12 +413,12 @@ Nodo *buscardepartamento(string empresa)
     {
         while(aux!=0)
         {
-            if(empresa==aux->getEmpresa())
+            if(empresa.compare(aux->getEmpresa())==0)
                 return aux;
             aux= aux->getSiguiente();
         }
     }
-    return aux;
+    return 0;
 }
     /*Nodo *insertardepartamento(Nodo *nuevo, Nodo *departamento);
     Nodo *insertarempresa(Nodo *nuevo, Nodo *nodoempresa);
