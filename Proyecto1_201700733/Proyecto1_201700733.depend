@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1592000810 source:a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\main.cpp
+1592250016 source:a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\main.cpp
 	<iostream>
 	"EDD/Cola.h"
 	"EDD/ArbolAVL.h"
@@ -8,9 +8,42 @@
 1591609485 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\cola.h
 	<iostream>
 
-1592000797 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\arbolavl.h
+1592263578 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\arbolavl.h
+	<iostream>
+	"Activo.h"
+
+1592238707 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\cubodisperso.h
+	"Usuario.h"
+	<iostream>
+	<string>
+
+1592125173 source:a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\activo.cpp
+	"Activo.h"
+
+1592125173 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\activo.h
+
+1592125155 source:a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\usuario.cpp
+	"Usuario.h"
+
+1592126192 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\usuario.h
+	"EDD/ArbolAVL.h"
 	<iostream>
 
-1592001422 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\cubodisperso.h
+1592237940 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\usuario.h
 	<iostream>
+	"ArbolAVL.h"
+
+1592237853 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\usuario.cpp
+	"Usuario.h"
+	<iostream>
+
+1592237967 source:a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\usuario.cpp
+
+1592257282 source:a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\activo.cpp
+
+1592257342 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\activo.h
+	<iostream>
+
+1592249912 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\activo.cpp
+	"Activo.h"
 

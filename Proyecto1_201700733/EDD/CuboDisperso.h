@@ -1,7 +1,8 @@
 #ifndef CUBODISPERSO_H_INCLUDED
 #define CUBODISPERSO_H_INCLUDED
+#include "Usuario.h"
 #include <iostream>
-
+#include <string>
 using namespace std;
 //arreglos matriz
 class Nodo
@@ -14,18 +15,24 @@ class Nodo
         Nodo *detras;
         string departamento;
         string empresa;
-        int multiplicador;
-        string letra;
+        Usuario *miUser;
         int tamanio;
     public:
         //crear cabeceras de departamentos y empresas
+        Usuario *getUser()
+        {
+            return miUser;
+        }
+        void setUser(Usuario *user)
+        {
+            this->miUser=user;
+        }
 
-        Nodo(string letra, string departamento, string empresa, int multi)
+        Nodo(Usuario *user, string departamento, string empresa)
         {//anio es departamentos, mes es empresas
             this->departamento=departamento;
             this->empresa=empresa;
-            this->letra=letra;
-            this->multiplicador=multi;
+            this->miUser= user;
             siguiente=anterior=arriba=abajo=detras=frente=0;
         }
          Nodo(string dato, bool esdepartamento)
@@ -34,16 +41,12 @@ class Nodo
             {
             this->departamento=dato;
             this->empresa="";
-            this->letra="";
-            this->multiplicador=0;
-            siguiente=anterior=arriba=abajo=detras=frente=0;
             }else{
             this->departamento="";
             this->empresa=dato;
-            this->letra="";
-            this->multiplicador=0;
-            siguiente=anterior=arriba=abajo=detras=frente=0;
             }
+            this->miUser=0;
+            siguiente=anterior=arriba=abajo=detras=frente=0;
         }
         string getEmpresa()
         {
@@ -53,27 +56,12 @@ class Nodo
         {
             return departamento;
         }
-        int getMuti()
-        {
-            return multiplicador;
-        }
-        string getLetra()
-        {
-            return letra;
-        }
         void setEmpresa(string f)
         {
             empresa=f;
         }void setDepartamento(string f)
         {
             departamento=f;
-        }void setMulti(int f)
-        {
-           multiplicador=f;
-        }
-        void setLetra(string letra)
-        {
-            this->letra=letra;
         }
         Nodo *getSiguiente()
         {
@@ -168,9 +156,10 @@ class CuboDisperso
         }
     CuboDisperso()
     {
-        raiz= new Nodo("raiz",0,0,0);
+        Usuario *us= new Usuario("admin","admin","admin","admin","admin","admin");
+        raiz= new Nodo(us,"0","0");
     }
-    Nodo *busquedaNodo(string empresa, string departamento)
+    Nodo *busquedaNodo(string nombre, string contra,string empresa, string departamento)
 {
     bool bandera=false;
         Nodo *retorno=0;
@@ -179,7 +168,7 @@ class CuboDisperso
     {
         Nodo *aux2=raiz;
         while(aux2!=0){
-            if(aux2->getEmpresa()==empresa && aux2->getDepartamento()==departamento)
+            if(aux2->getUser()->Getempresa()==empresa && aux2->getUser()->Getdepartamento()==departamento && aux2->getUser()->Getusername()==nombre && aux2->getUser()->Getpass()==contra)
                 {
                     retorno=aux2;
                     bandera=true;
@@ -249,17 +238,8 @@ void imprimir()
                 string filsiguiente="C"+aux2->getSiguiente()->getDepartamento();
             string colsiguiente="F"+aux2->getSiguiente()->getEmpresa();
             enlaces+="\""+fil+col+"\" -> \""+filsiguiente+colsiguiente+"\"\n";
-            }
-            if(aux2->getMuti()==2)
-            {
-            cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+aux2->getLetra()+"\" style=filled fillcolor=yellow group="+aux2->getEmpresa()+"];\n";
-            }
-            else if(aux2->getMuti()==3)
-            {
-               cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+aux2->getLetra()+"\" style=filled fillcolor=green group="+aux2->getEmpresa()+"];\n";
-            }
-            else if(aux2->getMuti()==1){
-                cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+aux2->getLetra()+"\" style=filled fillcolor=blue group="+aux2->getEmpresa()+"];\n";
+           // cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+aux2->getLetra()+"\" style=filled fillcolor=yellow group="+aux2->getEmpresa()+"];\n";
+            cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+aux2->getDepartamento()+"\" style=filled fillcolor=blue group="+aux2->getEmpresa()+"];\n";
             }else{
                 if(aux2->getDepartamento()=="" && aux2->getEmpresa()==""){
                         cuerpo+="\""+fil+col+"\""+"[shape= record label=\"Raiz\" style=filled fillcolor=gray group=1];\n";
@@ -281,9 +261,9 @@ void imprimir()
     aux=aux->getSiguiente();
         }
     }
-void crearNodo(string nombre, int multi, string departamento, string empresa)
+void crearNodo(Usuario *user,string departamento, string empresa)
 {
-    Nodo *nuevo= new Nodo(nombre,departamento,empresa,multi);
+    Nodo *nuevo= new Nodo(user,departamento,empresa);
     Nodo *Nodoempresa= buscarempresa(empresa);
     Nodo *Nododepartamento= buscardepartamento(departamento);
     if(Nodoempresa==0 && Nododepartamento==0){
@@ -323,8 +303,7 @@ Nodo *insertarempresa(Nodo *nuevo,Nodo *nododepartamento)
         if(aux->getEmpresa() ==nuevo->getEmpresa())
         {
             aux->setDepartamento(nuevo->getDepartamento());
-            aux->setLetra(nuevo->getLetra());
-            aux->setMulti(nuevo->getMuti());
+            aux->setUser(nuevo->getUser());
             return aux;
         }
         else if(aux->getEmpresa()>nuevo->getEmpresa())
@@ -361,8 +340,7 @@ Nodo *insertardepartamento(Nodo *nuevo,Nodo *nodoempresa)
         if(aux->getDepartamento() ==nuevo->getDepartamento())
         {
             aux->setEmpresa(nuevo->getEmpresa());
-            aux->setLetra(nuevo->getLetra());
-            aux->setMulti(nuevo->getMuti());
+            aux->setUser(nuevo->getUser());
             return aux;
         }
         else if(aux->getDepartamento()>nuevo->getDepartamento())

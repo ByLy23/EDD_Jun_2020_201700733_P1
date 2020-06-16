@@ -1,31 +1,32 @@
 #ifndef ARBOLBINBUSQUEDA_H_INCLUDED
 #define ARBOLBINBUSQUEDA_H_INCLUDED
 #include <iostream>
+#include "Activo.h"
 using namespace std;
 class NodoAVL
     {
-        string nombreNodoAVL;
+        Activo *nombreNodoAVL;
         int altura;
         public:
         NodoAVL *derecho;
         NodoAVL *izquierdo;
         NodoAVL()
         {
-            nombreNodoAVL="";
+            nombreNodoAVL=0;
             izquierdo=derecho=0;
             altura=0;
         }
-        NodoAVL(string nombre)
+        NodoAVL(Activo *nombre)
         {
             nombreNodoAVL=nombre;
             altura=0;
             izquierdo=derecho=0;
         }
-        void setNombre(string nombre)
+        void setNombre(Activo *nombre)
         {
             nombreNodoAVL= nombre;
         }
-        string getNombre()
+        Activo *getNombre()
         {
             return nombreNodoAVL;
         }
@@ -64,7 +65,7 @@ private:
             string alti= to_string(nodo->getAltura()-1);
             string nod;
 
-            cuerpo+= "nodo [label= \" "+nodo->getNombre()+"\n Altura: "+alti+"\"];";
+            cuerpo+= "nodo [label= \" "+nodo->getNombre()->GetNombre()+"\n Altura: "+alti+"\"];";
             graficar(nodo->getDerecho());
         }
     }
@@ -115,7 +116,7 @@ private:
         return n2;
     }
     NodoAVL *raizGeneral=0;
-     NodoAVL *crearNodoAVL(string nombre)
+     NodoAVL *crearNodoAVL(Activo *nombre)
     {
         NodoAVL *nuevo= new NodoAVL(nombre);
         nuevo->setNombre(nombre);
@@ -127,7 +128,7 @@ private:
     NodoAVL *verificaNombre(NodoAVL *arbol, string nombre)
     {
          if(arbol!=0){
-                string nombreComparar= arbol->getNombre();
+                string nombreComparar= arbol->getNombre()->GetID();
                 if(nombre.compare(nombreComparar)==0)
                 {
                     aiuda=arbol;
@@ -142,7 +143,30 @@ private:
         }
         return 0;
     }
-    NodoAVL *insertarNodoAVL(NodoAVL *&arbol, string nombre)
+    void cambiarDatos(string nombres, string desc)
+    {
+        raizGeneral=cambiarDatosNodo(raizGeneral,nombres,desc);
+    }
+    NodoAVL *cambiarDatosNodo(NodoAVL *arbol, string nombres, string desc)
+    {
+         if(arbol!=0){
+                string nombreComparar= arbol->getNombre()->GetID();
+                if(nombres.compare(nombreComparar)==0)
+                {
+                    arbol->getNombre()->SetDescripcion(desc);
+                    arbol->getNombre()->SetNombre(nombres);
+                }
+                else if(nombres.compare(nombreComparar)>0)
+                {
+                    cambiarDatosNodo(arbol->derecho,nombres,desc);
+                }
+                else{
+                    cambiarDatosNodo(arbol->izquierdo,nombres,desc);
+                }
+        }
+        return 0;
+    }
+    NodoAVL *insertarNodoAVL(NodoAVL *&arbol, Activo *nombre)
     {
         if(arbol==0)
         {
@@ -150,19 +174,19 @@ private:
             arbol=nuevo;
         }
         else{
-            string nombreComparar= arbol->getNombre();
-            if(nombre.compare(nombreComparar)==0)
+            string nombreComparar= arbol->getNombre()->GetID();
+            if(nombre->GetID().compare(nombreComparar)==0)
             {
                 cout<<"Nombre Repetido"<<endl;
                 return arbol;
             }
-            else if(nombre.compare(nombreComparar)<0)
+            else if(nombre->GetID().compare(nombreComparar)<0)
             {
                 NodoAVL *izquierdo;
                 izquierdo= insertarNodoAVL(arbol->izquierdo,nombre);
                 arbol->setIzquierdo(izquierdo);
             }
-            else if(nombre.compare(nombreComparar)>0){
+            else if(nombre->GetID().compare(nombreComparar)>0){
                     NodoAVL *derecho;
                 derecho= insertarNodoAVL(arbol->derecho,nombre);
                 arbol->setDerecho(derecho);
@@ -190,20 +214,20 @@ private:
         }
         return arbol;
     }
-    NodoAVL *borrarNodo(NodoAVL *&raiz, string nombre){
+    NodoAVL *borrarNodo(NodoAVL *raiz, Activo *nombre){
 
         if(raiz==0)
         {
             return raiz;
         }
         else{
-            if(nombre.compare(raiz->getNombre())<0){
+            if(nombre->GetID().compare(raiz->getNombre()->GetID())<0){
             NodoAVL *izquierdo;
             izquierdo= borrarNodo(raiz->izquierdo,nombre);
             raiz->setIzquierdo(izquierdo);
             //insertar izquierdo
         }
-        else if(nombre.compare(raiz->getNombre())>0){
+        else if(nombre->GetID().compare(raiz->getNombre()->GetID())>0){
             NodoAVL *derecho;
             derecho=borrarNodo(raiz->derecho,nombre);
             raiz->setDerecho(derecho);
@@ -275,13 +299,14 @@ private:
     public:
     ArbolBusqueda(){
     }
-    void insertar(string nombre){
+    void insertar(Activo *nombre){
         raizGeneral=insertarNodoAVL(raizGeneral,nombre);
     }
-    void eliminar(string nombre)
+    void eliminar(string identificacion)
     {
-        NodoAVL *aux= borrarNodo(raizGeneral,nombre);
-        cout<<"Eliminado: "<<nombre<<endl;
+        NodoAVL *aux= verificaNombre(raizGeneral,identificacion);
+        NodoAVL *aux2= borrarNodo(raizGeneral,aux->getNombre());
+       // cout<<"Eliminado: "<<nombre<<endl;
     }
     void buscar(string nombre)
     {
@@ -297,14 +322,15 @@ private:
     }
     void actualizar(string nombre){
         NodoAVL *aux= verificaNombre(raizGeneral,nombre);
-        if(aiuda!=0)
-        {
-            string chapuza="";
-            eliminar(nombre);
-            cout<<"Ingrese modificacion"<<endl;
-            cin>>chapuza;
-            insertar(chapuza);
-        }
+        string nombres;
+        string nuevaDesc;
+        cout<<"ID: "<<aux->getNombre()->GetID()<<" Nombre: "<<aux->getNombre()->GetNombre()<<" Descripcion: "<<aux->getNombre()->GetDescripcion()<<endl;
+        cout<<"Modificar Datos, sino va a modificar nada escriba de nuevo los datos"<<endl;
+        cout<<"Nombre"<<endl<<">>";
+        cin>>nombres;
+        cout<<"Descripcion"<<endl<<">>";
+        cin>>nuevaDesc;
+        cambiarDatos(nombres, nuevaDesc);
     }
     void preOrden()
     {
