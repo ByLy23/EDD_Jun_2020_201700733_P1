@@ -18,8 +18,8 @@ Usuario()
     this->arbolito= 0;
     //ctor
 }
-Usuario(string nombre,string apellido,string username, string pass, string departamento, string empresa)
-{
+    Usuario(string nombre,string apellido,string username, string pass, string departamento, string empresa)
+    {
     this->nombre=nombre;
    this->apellido=apellido;
     this->pass=pass;
@@ -27,8 +27,8 @@ Usuario(string nombre,string apellido,string username, string pass, string depar
     this->username=username;
     this->departamento=departamento;
     this->arbolito= new ArbolBusqueda();
-}
-        virtual ~Usuario();
+
+    }
         string Getnombre() { return nombre; }
         void Setnombre(string val) { nombre = val; }
         string Getapellido() { return apellido; }

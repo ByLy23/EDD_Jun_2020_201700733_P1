@@ -443,6 +443,32 @@ void mostrarActivos(Usuario *user)
      Nodo *busqueda=busquedaNodo(user->Getempresa(),user->Getdepartamento(),user->Getusername(),user->Getpass());
      busqueda->getUser()->Getarbolito()->inordenMuestra();
 }
+void apagarActivo(string id,int numero)
+{
+    bool bandera=false;
+        Nodo *retorno=0;
+    Nodo *aux= raiz;
+    while(aux!=0)
+    {
+        Nodo *aux2=raiz;
+        while(aux2!=0){
+            Nodo *aux3= aux2;
+            while(aux3!=0)
+            {
+                bandera=true;
+                if(aux3->getUser()!=0)
+                {
+                    aux3->getUser()->Getarbolito()->buscar(id,numero);
+                }
+            aux3=aux3->getFrente();
+        }
+                aux2=aux2->getSiguiente();
+        }
+        if (bandera)
+            break;
+        aux= aux->getAbajo();
+    }
+}
 void mostrarActivosMenosLosMios(Usuario *user)
 {
     bool bandera=false;
@@ -459,9 +485,9 @@ void mostrarActivosMenosLosMios(Usuario *user)
                 if(aux3->getUser()!=0)
                 {
                     if(aux3->getUser()->Getusername().compare(user->Getusername())==0 && aux3->getUser()->Getpass().compare(user->Getpass())==0)
-                        cout<<"Usuario"<<endl;
+                        cout<<""<<endl;
                     else
-                        aux3->getUser()->Getarbolito()->inordenMuestra();
+                        aux3->getUser()->Getarbolito()->activosSinRentar();
                 }
             aux3=aux3->getFrente();
         }
@@ -472,6 +498,7 @@ void mostrarActivosMenosLosMios(Usuario *user)
         aux= aux->getAbajo();
     }
 }
+
     /*Nodo *insertardepartamento(Nodo *nuevo, Nodo *departamento);
     Nodo *insertarempresa(Nodo *nuevo, Nodo *nodoempresa);
     Nodo *creardepartamento(string departamento);

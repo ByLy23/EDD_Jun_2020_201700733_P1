@@ -23,6 +23,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-std=c++14" />
 					<Add directory="EDD" />
 				</Compiler>
 				<Linker>
@@ -34,14 +35,11 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="Activo.cpp" />
-		<Unit filename="Activo.h" />
-		<Unit filename="EDD/Activo.cpp" />
 		<Unit filename="EDD/Activo.h" />
+		<Unit filename="EDD/Trans.h" />
+		<Unit filename="EDD/Transaccion.h" />
 		<Unit filename="EDD/Usuario.cpp" />
 		<Unit filename="EDD/Usuario.h" />
-		<Unit filename="Usuario.cpp" />
-		<Unit filename="Usuario.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

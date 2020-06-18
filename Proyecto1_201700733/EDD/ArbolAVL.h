@@ -306,26 +306,41 @@ private:
         raizGeneral=borrarNodo(raizGeneral,identificacion);
        // cout<<"Eliminado: "<<nombre<<endl;
     }
-    void buscar(string nombre)
+    void buscar(string id,int num)
     {
-        NodoAVL *aux= verificaNombre(raizGeneral,nombre);
-        if(aiuda!=0)
-        {
-            cout<<"La persona es: "<<aiuda->getNombre()<<endl;
-            aiuda=0;
-        }else
-        {
-            cout<<"No existe persona"<<endl;
+        buscarActivo(raizGeneral,id,num);
+    }
+    void buscarActivo(NodoAVL *arbol,string nombre, int num)
+    {
+         if(arbol!=0){
+                string nombreComparar= arbol->getNombre()->GetID();
+                if(nombre.compare(nombreComparar)==0)
+                {
+                    if(num==1)
+                    {
+                    arbol->getNombre()->setRentado(true);
+                    }else{
+                    arbol->getNombre()->setRentado(false);
+                    }
+                }
+                else if(nombre.compare(nombreComparar)<0)
+                {
+                    buscarActivo(arbol->izquierdo,nombre,num);
+                }
+                else{
+                    buscarActivo(arbol->derecho,nombre,num);
+                }
         }
+
     }
     void actualizar(string identificador){
         string nombres;
         string nuevaDesc;
         cout<<"Modificar Datos, sino va a modificar nada escriba de nuevo los datos"<<endl;
         cout<<"Nombre"<<endl<<">>";
-        cin>>nombres;
+        getline(cin,nombres);
         cout<<"Descripcion"<<endl<<">>";
-        cin>>nuevaDesc;
+        getline(cin,nuevaDesc);
         cambiarDatos(nombres, nuevaDesc,identificador);
     }
     void preOrden()
@@ -352,6 +367,20 @@ private:
             recorrerInorden(raiz->getIzquierdo());
             cout<<"ID= "<<raiz->getNombre()->GetID()<<" ; Nombre= "<<raiz->getNombre()->GetNombre()<<" Descripcion= "<<raiz->getNombre()->GetDescripcion()<<endl;
             recorrerInorden(raiz->getDerecho());
+        }
+    }
+    void activosSinRentar()
+    {
+        recorrerSinRentar(raizGeneral);
+    }
+    void recorrerSinRentar(NodoAVL *raiz)
+    {
+        if(raiz!=0)
+        {
+            recorrerSinRentar(raiz->getIzquierdo());
+            if(!raiz->getNombre()->getRentado())
+                cout<<"ID= "<<raiz->getNombre()->GetID()<<" ; Nombre= "<<raiz->getNombre()->GetNombre()<<" Descripcion= "<<raiz->getNombre()->GetDescripcion()<<endl;
+            recorrerSinRentar(raiz->getDerecho());
         }
     }
 
