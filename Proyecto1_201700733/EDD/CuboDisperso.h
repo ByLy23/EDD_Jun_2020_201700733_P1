@@ -485,7 +485,8 @@ void mostrarActivosMenosLosMios(Usuario *user)
                 if(aux3->getUser()!=0)
                 {
                     if(aux3->getUser()->Getusername().compare(user->Getusername())==0 && aux3->getUser()->Getpass().compare(user->Getpass())==0)
-                        cout<<""<<endl;
+                    {
+                    }
                     else
                         aux3->getUser()->Getarbolito()->activosSinRentar();
                 }
@@ -499,6 +500,35 @@ void mostrarActivosMenosLosMios(Usuario *user)
     }
 }
 
+void mostrarActivosRentados(Usuario *user)
+{
+    bool bandera=false;
+        Nodo *retorno=0;
+    Nodo *aux= raiz;
+    while(aux!=0)
+    {
+        Nodo *aux2=raiz;
+        while(aux2!=0){
+            Nodo *aux3= aux2;
+            while(aux3!=0)
+            {
+                bandera=true;
+                if(aux3->getUser()!=0)
+                {
+                    if(aux3->getUser()->Getusername().compare(user->Getusername())==0 && aux3->getUser()->Getpass().compare(user->Getpass())==0)
+                    {
+                        aux3->getUser()->Getarbolito()->misActivosRentados();
+                    }
+                }
+            aux3=aux3->getFrente();
+        }
+                aux2=aux2->getSiguiente();
+        }
+        if (bandera)
+            break;
+        aux= aux->getAbajo();
+    }
+}
     /*Nodo *insertardepartamento(Nodo *nuevo, Nodo *departamento);
     Nodo *insertarempresa(Nodo *nuevo, Nodo *nodoempresa);
     Nodo *creardepartamento(string departamento);

@@ -383,6 +383,22 @@ private:
             recorrerSinRentar(raiz->getDerecho());
         }
     }
+    void misActivosRentados()
+    {
+        recorrerMisRentados(raizGeneral);
+
+    }
+
+    void recorrerMisRentados(NodoAVL *raiz)
+    {
+        if(raiz!=0)
+        {
+            recorrerMisRentados(raiz->getIzquierdo());
+            if(raiz->getNombre()->getRentado())
+                cout<<"ID= "<<raiz->getNombre()->GetID()<<" ; Nombre= "<<raiz->getNombre()->GetNombre()<<" ; Descripcion= "<<raiz->getNombre()->GetDescripcion()<<endl;
+            recorrerMisRentados(raiz->getDerecho());
+        }
+    }
 
 };
 

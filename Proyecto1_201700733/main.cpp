@@ -20,7 +20,7 @@ Usuario *persona;
      {
          if(ActivosRentados->obtener_at(i)->GetUsername().compare(persona->Getusername())==0 && ActivosRentados->obtener_at(i)->Getdepartamento().compare(persona->Getdepartamento())==0 && ActivosRentados->obtener_at(i)->Getempresa().compare(persona->Getempresa())==0)
          {
-             cout<<"ID: "<<ActivosRentados->obtener_at(i)->GetidActivo()<<" Dias: "<<ActivosRentados->obtener_at(i)->Gettiempo()<<" Dias"<<endl;
+             cout<<"ID: "<<ActivosRentados->obtener_at(i)->GetidActivo()<<" Tiempo Rentado: "<<ActivosRentados->obtener_at(i)->Gettiempo()<<" Dias"<<endl;
              cout<<ActivosRentados->obtener_at(i)->Gettiempo()<<endl;
              cout<<ActivosRentados->obtener_at(i)->Getfecha()<<endl;
          }
@@ -44,7 +44,9 @@ Usuario *persona;
  }
  void moduloMostrarMisRentados()
  {
-
+     cout<<"Estos son los activos que rentaron de usted"<<endl;
+    cubito->mostrarActivosRentados(persona);
+    system("pause");
  }
  void moduloTransaccion()
  {time_t tiempo= time(0);
