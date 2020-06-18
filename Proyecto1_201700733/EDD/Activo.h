@@ -10,6 +10,7 @@ class Activo
             Descripcion="";
             Nombre="";
             ID="";
+            estaRentado=false;
         }
         Activo(string desc, string nombre)
         {
@@ -17,10 +18,14 @@ class Activo
             this->ID= metodoRandom();
             this->Descripcion=desc;
             this->Nombre=nombre;
+            estaRentado=false;
+
         }
 
         string GetDescripcion() { return Descripcion; }
         void SetDescripcion(string val) { Descripcion = val; }
+        bool getRentado(){return estaRentado;}
+        void setRentado(bool val) {estaRentado=val;}
         string GetNombre() { return Nombre; }
         void SetNombre(string val) { Nombre = val; }
         string GetID() { return ID; }
@@ -74,6 +79,7 @@ class Activo
         string Descripcion="";
         string Nombre="";
         string ID="";
+        bool estaRentado=false;
 };
 
 #endif // ACTIVO_H

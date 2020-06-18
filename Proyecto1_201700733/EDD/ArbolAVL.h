@@ -141,30 +141,29 @@ private:
                     verificaNombre(arbol->izquierdo,nombre);
                 }
         }
-        return 0;
+        return arbol;
     }
-    void cambiarDatos(string nombres, string desc)
+    void cambiarDatos(string nombres, string desc,string identificador)
     {
-        raizGeneral=cambiarDatosNodo(raizGeneral,nombres,desc);
+        cambiarDatosNodo(raizGeneral,nombres,desc,identificador);
     }
-    NodoAVL *cambiarDatosNodo(NodoAVL *arbol, string nombres, string desc)
+    void cambiarDatosNodo(NodoAVL *arbol, string nombres, string desc,string identificador)
     {
          if(arbol!=0){
                 string nombreComparar= arbol->getNombre()->GetID();
-                if(nombres.compare(nombreComparar)==0)
+                if(identificador.compare(nombreComparar)==0)
                 {
                     arbol->getNombre()->SetDescripcion(desc);
                     arbol->getNombre()->SetNombre(nombres);
                 }
-                else if(nombres.compare(nombreComparar)>0)
+                else if(identificador.compare(nombreComparar)<0)
                 {
-                    cambiarDatosNodo(arbol->derecho,nombres,desc);
+                    cambiarDatosNodo(arbol->izquierdo,nombres,desc,identificador);
                 }
                 else{
-                    cambiarDatosNodo(arbol->izquierdo,nombres,desc);
+                    cambiarDatosNodo(arbol->derecho,nombres,desc,identificador);
                 }
-        }
-        return 0;
+         }
     }
     NodoAVL *insertarNodoAVL(NodoAVL *&arbol, Activo *nombre)
     {
@@ -214,20 +213,19 @@ private:
         }
         return arbol;
     }
-    NodoAVL *borrarNodo(NodoAVL *raiz, Activo *nombre){
+    NodoAVL *borrarNodo(NodoAVL *raiz, string nombre){
 
         if(raiz==0)
         {
             return raiz;
         }
-        else{
-            if(nombre->GetID().compare(raiz->getNombre()->GetID())<0){
+        else if(nombre.compare(raiz->getNombre()->GetID())<0){
             NodoAVL *izquierdo;
             izquierdo= borrarNodo(raiz->izquierdo,nombre);
             raiz->setIzquierdo(izquierdo);
             //insertar izquierdo
         }
-        else if(nombre->GetID().compare(raiz->getNombre()->GetID())>0){
+        else if(nombre.compare(raiz->getNombre()->GetID())>0){
             NodoAVL *derecho;
             derecho=borrarNodo(raiz->derecho,nombre);
             raiz->setDerecho(derecho);
@@ -254,9 +252,10 @@ private:
                     raiz->setIzquierdo(0);
                 }
               }
-            }
+
         return raiz;
-        }
+            }
+
         raiz->setAltura(1+alturaMaxima(obtieneAltura(raiz->getIzquierdo()),obtieneAltura(raiz->getDerecho())));
             int balance= getBalance(raiz);
             if (balance>1) {
@@ -304,8 +303,7 @@ private:
     }
     void eliminar(string identificacion)
     {
-        NodoAVL *aux= verificaNombre(raizGeneral,identificacion);
-        NodoAVL *aux2= borrarNodo(raizGeneral,aux->getNombre());
+        raizGeneral=borrarNodo(raizGeneral,identificacion);
        // cout<<"Eliminado: "<<nombre<<endl;
     }
     void buscar(string nombre)
@@ -320,17 +318,15 @@ private:
             cout<<"No existe persona"<<endl;
         }
     }
-    void actualizar(string nombre){
-        NodoAVL *aux= verificaNombre(raizGeneral,nombre);
+    void actualizar(string identificador){
         string nombres;
         string nuevaDesc;
-        cout<<"ID: "<<aux->getNombre()->GetID()<<" Nombre: "<<aux->getNombre()->GetNombre()<<" Descripcion: "<<aux->getNombre()->GetDescripcion()<<endl;
         cout<<"Modificar Datos, sino va a modificar nada escriba de nuevo los datos"<<endl;
         cout<<"Nombre"<<endl<<">>";
         cin>>nombres;
         cout<<"Descripcion"<<endl<<">>";
         cin>>nuevaDesc;
-        cambiarDatos(nombres, nuevaDesc);
+        cambiarDatos(nombres, nuevaDesc,identificador);
     }
     void preOrden()
     {
@@ -343,6 +339,19 @@ private:
         cout<<raiz->getNombre()<<", ";
         recorridoPre(raiz->getIzquierdo());
         recorridoPre(raiz->getDerecho());
+        }
+    }
+    void inordenMuestra()
+    {
+        recorrerInorden(raizGeneral);
+    }
+    void recorrerInorden(NodoAVL *raiz)
+    {
+        if(raiz!=0)
+        {
+            recorrerInorden(raiz->getIzquierdo());
+            cout<<"ID= "<<raiz->getNombre()->GetID()<<" ; Nombre= "<<raiz->getNombre()->GetNombre()<<" Descripcion= "<<raiz->getNombre()->GetDescripcion()<<endl;
+            recorrerInorden(raiz->getDerecho());
         }
     }
 

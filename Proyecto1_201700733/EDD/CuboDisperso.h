@@ -420,6 +420,58 @@ Nodo *buscardepartamento(string empresa)
     }
     return 0;
 }
+
+
+void ingresarAVL(Activo *activo,Usuario *user)
+{
+    Nodo *busqueda=busquedaNodo(user->Getempresa(),user->Getdepartamento(),user->Getusername(),user->Getpass());
+    busqueda->getUser()->Getarbolito()->insertar(activo);
+}
+void eliminarAVL(string nombre,Usuario *user)
+{
+    Nodo *busqueda=busquedaNodo(user->Getempresa(),user->Getdepartamento(),user->Getusername(),user->Getpass());
+    cout<<"Si busca"<<endl;
+    busqueda->getUser()->Getarbolito()->eliminar(nombre);
+}
+void modificarAVL(string identificar,Usuario *user)
+{
+    Nodo *busqueda=busquedaNodo(user->Getempresa(),user->Getdepartamento(),user->Getusername(),user->Getpass());
+    busqueda->getUser()->Getarbolito()->actualizar(identificar);
+}
+void mostrarActivos(Usuario *user)
+{
+     Nodo *busqueda=busquedaNodo(user->Getempresa(),user->Getdepartamento(),user->Getusername(),user->Getpass());
+     busqueda->getUser()->Getarbolito()->inordenMuestra();
+}
+void mostrarActivosMenosLosMios(Usuario *user)
+{
+    bool bandera=false;
+        Nodo *retorno=0;
+    Nodo *aux= raiz;
+    while(aux!=0)
+    {
+        Nodo *aux2=raiz;
+        while(aux2!=0){
+            Nodo *aux3= aux2;
+            while(aux3!=0)
+            {
+                bandera=true;
+                if(aux3->getUser()!=0)
+                {
+                    if(aux3->getUser()->Getusername().compare(user->Getusername())==0 && aux3->getUser()->Getpass().compare(user->Getpass())==0)
+                        cout<<"Usuario"<<endl;
+                    else
+                        aux3->getUser()->Getarbolito()->inordenMuestra();
+                }
+            aux3=aux3->getFrente();
+        }
+                aux2=aux2->getSiguiente();
+        }
+        if (bandera)
+            break;
+        aux= aux->getAbajo();
+    }
+}
     /*Nodo *insertardepartamento(Nodo *nuevo, Nodo *departamento);
     Nodo *insertarempresa(Nodo *nuevo, Nodo *nodoempresa);
     Nodo *creardepartamento(string departamento);
