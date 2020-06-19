@@ -443,6 +443,35 @@ void mostrarActivos(Usuario *user)
      Nodo *busqueda=busquedaNodo(user->Getempresa(),user->Getdepartamento(),user->Getusername(),user->Getpass());
      busqueda->getUser()->Getarbolito()->inordenMuestra();
 }
+void imprimirPorUsuario(string usuario)
+{
+    bool bandera=false;
+        Nodo *retorno=0;
+    Nodo *aux= raiz;
+    while(aux!=0)
+    {
+        Nodo *aux2=raiz;
+        while(aux2!=0){
+            Nodo *aux3= aux2;
+            while(aux3!=0)
+            {
+                bandera=true;
+                if(aux3->getUser()!=0)
+                {
+                    if(aux3->getUser()->Getusername().compare(usuario)==0)
+                    {
+                        aux3->getUser()->Getarbolito()->imprimirNodos();
+                    }
+                }
+            aux3=aux3->getFrente();
+        }
+                aux2=aux2->getSiguiente();
+        }
+        if (bandera)
+            break;
+        aux= aux->getAbajo();
+    }
+}
 void apagarActivo(string id,int numero)
 {
     bool bandera=false;

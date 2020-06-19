@@ -194,7 +194,7 @@ void ListaDobleCircular<T>::eliminar(int index)
         }
     }
 }
-
+/*
 template<class T>
 void ListaDobleCircular<T>::imprimirLista()
 {
@@ -203,14 +203,14 @@ void ListaDobleCircular<T>::imprimirLista()
     if(!estaVacia()){
     while(x!=size)
     {
-        cuerpo+=aux->getDato()+"[shape= record label=\""+aux->getDato()+"\"];\n";
+        cuerpo+=aux->getDato()->+"[shape= record label=\""+lista->obtener_at(i)->Getid()+"\\nID del Activo: "+ lista->obtener_at(i)->GetidActivo()+"\\nLo alquilo: "+lista->obtener_at(i)->GetUsername()+"\\nLo alquilo para: "+lista->obtener_at(i)->Gettiempo()+"\\nFecha de alquiler: "+lista->obtener_at(i)->Getfecha()+"\"];\n";
         enlaces+= aux->getDato()+"->"+aux->getAnterior()->getDato()+"\n"+aux->getDato()+"->"+aux->getSiguiente()->getDato()+"\n";
         grupo+=aux->getDato()+"; ";
         x++;
         aux=aux->getSiguiente();
     }
     }
-}
+}*/
 
 
 #endif // LISTADOBLECIRCULAR_H_INCLUDED

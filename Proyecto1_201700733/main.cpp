@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 #include "EDD/Cola.h"
+#include "EDD/ListaDobleCircular.h"
 #include "EDD/ListaDoble.h"
 #include "EDD/ArbolAVL.h"
 #include "EDD/Trans.h"
@@ -10,9 +12,14 @@ using namespace std;
 
 
 CuboDisperso* cubito=new CuboDisperso();
-ListaDoble<Trans*> *transacciones= new ListaDoble<Trans*>();
+ListaDobleCircular<Trans*> *transacciones= new ListaDobleCircular<Trans*>();
 ListaDoble<Trans*> *ActivosRentados= new ListaDoble<Trans*>();
 Usuario *persona;
+void graficarReportes(string, string);
+void imprimirTransacciones(ListaDobleCircular<Trans*>);
+string cuerpoLista="";
+string enlaceLista="";
+string todoArbolito="";
  void moduloDevolverActivos()
  {
      string nombr;
@@ -189,21 +196,52 @@ void moduloRegistro()
     cubito->crearNodo(new Usuario(nombre,apellido,usuario, contrasenia, departamento, empresa),departamento,empresa);
     cout<<"Registrado"<<endl;
 }
+
+void imprimirTransacciones(ListaDobleCircular<Trans*> *lista)
+{
+    for(int i=0; i<lista->getSize(); i++)
+    {
+        int j=i+1;
+        int k=i-1;
+        cuerpoLista+="nodo"+to_string(i)+"[shape= record label=\""+lista->obtener_at(i)->Getid()+"\\nID del Activo: "+ lista->obtener_at(i)->GetidActivo()+"\\nLo alquilo: "+lista->obtener_at(i)->GetUsername()+"\\nLo alquilo para: "+lista->obtener_at(i)->Gettiempo()+"\\nFecha de alquiler: "+lista->obtener_at(i)->Getfecha()+"\"];\n";
+        if(i==0)
+        {
+        enlaceLista+="nodo"+to_string(i)+" -> nodo"+ to_string(lista->getSize()-1)+"\n";
+        }
+        if(j==lista->getSize()-1)
+        {
+            enlaceLista+="nodo"+to_string(j)+" -> nodo"+ to_string(0)+"\n";
+        }
+        if(j<lista->getSize())
+        {
+        enlaceLista+="nodo"+to_string(i)+" -> nodo"+ to_string(j)+"\n";
+        }
+        if(k>=0){
+        enlaceLista+="nodo"+to_string(i)+" -> nodo"+ to_string(k)+"\n";
+        }
+    }
+}
+void moduloImprimirAVL()
+{
+    string us;
+    cout<<"Ingrese nombre Usuario"<<endl<<">>";
+    getline(cin,us);
+    cubito->imprimirPorUsuario(us);
+}
 void moduloAdmin()
 {
     int opcion=0;
     do{
             system("cls");
         cout<<"1. Registrar Usuario"<<endl;
-        cout<<"2. Reporte Matriz Dispersa"<<endl;
-        cout<<"3. Reporte de Activos Disponibles por Departamento"<<endl;
-        cout<<"4. Reporte de Activos Disponibles por Empresa"<<endl;
-        cout<<"5. Reporte de Transacciones"<<endl;
-        cout<<"6. Reporte de Activos de un Usuario"<<endl;
-        cout<<"7. Reporte de Activos rentados por un Usuario"<<endl;
-        cout<<"8. Ordenar Transacciones"<<endl;
+        cout<<"2. Reporte Matriz Dispersa"<<endl;//este toca
+        cout<<"3. Reporte de Activos Disponibles por Departamento"<<endl;//por cada usuario del departamento
+        cout<<"4. Reporte de Activos Disponibles por Empresa"<<endl;// por cada usuario de la empresa xD
+        cout<<"5. Reporte de Transacciones"<<endl;//listo
+        cout<<"6. Reporte de Activos de un Usuario"<<endl;//listo
+        cout<<"7. Reporte de Activos rentados por un Usuario"<<endl;//lista simple
+        cout<<"8. Ordenar Transacciones"<<endl;// si me da tiempo la hago sino F
         cout<<"9. Cerrar Sesion"<<endl<<">>";
-
         cin>>opcion;
         cin.ignore();
         switch(opcion)
@@ -212,6 +250,7 @@ void moduloAdmin()
             moduloRegistro();
             break;
         case 2:
+
             //reportes
             break;
         case 3:
@@ -219,8 +258,15 @@ void moduloAdmin()
         case 4:
             break;
         case 5:
+            imprimirTransacciones(transacciones);
+            todoArbolito="digraph ListaCircular{ \n linkdir=LR \n"+cuerpoLista+"\n"+enlaceLista+"}";
+            graficarReportes(todoArbolito,"ListaTransacciones");
+            cuerpoLista="";
+            enlaceLista="";
+            todoArbolito="";
             break;
         case 6:
+            moduloImprimirAVL();
             break;
         case 7:
             break;
@@ -263,7 +309,17 @@ void moduloSesion(){
 
 }
 
-
+void graficarReportes(string archivo,string nombre)
+{
+    string nombreArchivo=nombre+".dot";
+    ofstream datos(nombreArchivo);
+    datos<<archivo<<endl;
+    datos.close();
+    string inicio="start dot -Tjpg "+nombre+".dot -o "+nombre+".jpg";
+    string ejecucion= "start "+nombre+".jpg";
+    system((inicio).c_str());
+    system((ejecucion).c_str());
+}
 
 
 

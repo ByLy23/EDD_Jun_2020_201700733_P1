@@ -383,12 +383,71 @@ private:
             recorrerSinRentar(raiz->getDerecho());
         }
     }
+    void imprimirNodos()
+    {
+        int num;
+        imprimirNodo(raizGeneral,num);
+        string nodos="digraph Colapalabras{ \n linkdir=LR \n"+cuerpo+"\n"+enlaces+"}";
+        graficarReportes(nodos,"Usuario");
+        cuerpo="";
+        enlaces="";
+        nodos="";
+    }
+
+    void imprimirNodo(NodoAVL *arbol, int contador)
+{
+        if(arbol!=0)
+        {
+              if(arbol->getNombre()->GetID()!=""){
+                    if(arbol->getNombre()->getRentado())
+                    {
+            cuerpo+="\""+arbol->getNombre()->GetID()+"\"" + "[shape= circle style=filled fillcolor=red label=\"" + arbol->getNombre()->GetID()+"\\n"+ arbol->getNombre()->GetNombre()+ "\\n"+arbol->getNombre()->GetDescripcion()+"\\n\"];\n";
+                    }else
+                    {
+            cuerpo+="\""+arbol->getNombre()->GetID()+"\"" + "[shape= circle style=filled fillcolor=green label=\"" + arbol->getNombre()->GetID()+"\\n"+ arbol->getNombre()->GetNombre()+ "\\n"+arbol->getNombre()->GetDescripcion()+"\\n\"];\n";
+                    }
+            if(arbol->getDerecho()!=0)
+                enlaces+= "\""+arbol->getNombre()->GetID()+"\""+ "->"+ "\""+arbol->getDerecho()->getNombre()->GetID()+"\""+"\n";
+            if(arbol->getIzquierdo()!=0)
+                enlaces+= "\""+arbol->getNombre()->GetID()+"\""+ "->"+ "\""+arbol->getIzquierdo()->getNombre()->GetID()+"\""+"\n";
+              }
+            imprimirNodo(arbol->getDerecho(),contador+1);
+            imprimirNodo(arbol->getIzquierdo(),contador+1);
+        }
+}
+void graficarReportes(string archivo,string nombre)
+{
+    string nombreArchivo=nombre+".dot";
+    ofstream datos(nombreArchivo);
+    datos<<archivo<<endl;
+    datos.close();
+    string inicio="start dot -Tjpg "+nombre+".dot -o "+nombre+".jpg";
+    string ejecucion= "start "+nombre+".jpg";
+    system((inicio).c_str());
+    system((ejecucion).c_str());
+}
     void misActivosRentados()
     {
         recorrerMisRentados(raizGeneral);
 
+
     }
 
+    string getEnlaces(){
+        return enlaces;
+    }
+    string getCuerpo()
+    {
+        return cuerpo;
+    }
+    void setEnlaces(string enlaces)
+    {
+        this->enlaces=enlaces;
+    }
+    void setCuerpo(string cuerpo)
+    {
+        this->cuerpo=cuerpo;
+    }
     void recorrerMisRentados(NodoAVL *raiz)
     {
         if(raiz!=0)
