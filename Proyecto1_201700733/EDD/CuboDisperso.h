@@ -168,7 +168,7 @@ class CuboDisperso
     Nodo *aux= raiz;
     while(aux!=0)
     {
-        Nodo *aux2=raiz;
+        Nodo *aux2=aux;
         while(aux2!=0){
             Nodo *aux3= aux2;
             while(aux3!=0)
@@ -180,12 +180,15 @@ class CuboDisperso
                     if(aux3->getUser()!=0)
                     {
                         if(aux3->getUser()->Getusername().compare(nombre)==0 && aux3->getUser()->Getpass().compare(contra)==0)
+                        {
+                            retorno=aux3;
                             break;
+                        }
                     }
                 }
             aux3=aux3->getFrente();
         }
-                aux2=aux2->getSiguiente();
+        aux2=aux2->getSiguiente();
         }
         if (bandera)
             break;
@@ -196,74 +199,101 @@ class CuboDisperso
 Nodo *crearempresa(string empresa)
 {
     Nodo *cabeza_col= raiz;
-    Nodo *col_insertada= insertarempresa(new Nodo(empresa,false), cabeza_col);
+    Nodo *col_insertada= insertarempresa(new Nodo(empresa,true), cabeza_col);
     return col_insertada;
 }
 Nodo *creardepartamento(string departamento)
 {
     Nodo *cabezadepartamento= raiz;
-    Nodo *departamentoInsertada= insertardepartamento(new Nodo(departamento,true),cabezadepartamento);
+    Nodo *departamentoInsertada= insertardepartamento(new Nodo(departamento,false),cabezadepartamento);
     return departamentoInsertada;
 }
 void imprimir()
 {
     Nodo *aux= raiz;
     while(aux!=0){
-
-            string fil="C"+aux->getDepartamento();
-            string col="F"+aux->getEmpresa();
-           /* if(aux->getAnterior()!=0){
-                string departamentonterior="C"+to_string(aux->getAnterior()->getDepartamento());
-            string colanterior="F"+to_string(aux->getAnterior()->getEmpresa());
-            enlaces+="\""+fil+col+"\" -> \""+departamentonterior+colanterior+"\"\n";
-            }
-            if(aux->getSiguiente()!=0){
-                string filsiguiente="C"+to_string(aux->getSiguiente()->getDepartamento());
-            string colsiguiente="F"+to_string(aux->getSiguiente()->getEmpresa());
-            enlaces+="\""+fil+col+"\" -> \""+filsiguiente+colsiguiente+"\"\n";
-            }*/
-            //cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+fil+","+col+"\"];\n";
-
+        string fil=aux->getDepartamento();
+        string col=aux->getEmpresa();
         Nodo *aux2=aux;
         string ranki="";
         while(aux2!=0)
         {
-  string fil="C"+aux2->getDepartamento();
-            string col="F"+aux2->getEmpresa();
+         fil=aux2->getDepartamento();
+         col=aux2->getEmpresa();
+            if(aux2->getAbajo()!=0)
+            {
+                string filAbajo= aux2->getAbajo()->getDepartamento();
+                string colAbajo= aux2->getAbajo()->getEmpresa();
+                enlaces+="\""+fil+"_"+col+"\""+" -> "+"\""+filAbajo+"_"+colAbajo+"\""+"\n";
+            }
+            if(aux2->getArriba()!=0)
+            {
+                string filArriba= aux2->getArriba()->getDepartamento();
+                string colArriba= aux2->getArriba()->getEmpresa();
+                enlaces+="\""+fil+"_"+col+"\""+" -> "+"\""+filArriba+"_"+colArriba+"\""+"\n";
+            }
+            if(aux2->getSiguiente()!=0)
+            {
+                string filSiguiente= aux2->getSiguiente()->getDepartamento();
+                string colSiguiente= aux2->getSiguiente()->getEmpresa();
+                enlaces+="\""+fil+"_"+col+"\""+" -> "+"\""+filSiguiente+"_"+colSiguiente+"\""+"\n";
+            }
+            if(aux2->getAnterior()!=0)
+            {
+                string filAnterior= aux2->getAnterior()->getDepartamento();
+                string colAnterior= aux2->getAnterior()->getEmpresa();
+                enlaces+="\""+fil+"_"+col+"\""+" -> "+"\""+filAnterior+"_"+colAnterior+"\""+"\n";
+            }
+            if(fil=="a" && col=="a")
+                cuerpo+="\""+fil+"_"+col+"\""+"[shape= record label=\"raiz \" group=1];\n";
+            if(fil!="" && col=="")
+                cuerpo+="\""+fil+"_"+col+"\""+"[shape= record label=\""+aux2->getDepartamento()+"\"];\n";
+            if(fil=="" && col!="")
+                cuerpo+="\""+fil+"_"+col+"\""+"[shape= record label=\""+aux2->getEmpresa()+" \" group=1];\n";
+            if(fil!="" && col!="")
+            {
+                if(aux2->getFrente()!=0)
+                    cuerpo+="\""+fil+"_"+col+"\""+"[shape= record style= filled filledcolor=green label=\"Nombre: "+aux2->getUser()->Getnombre()+" "+aux2->getUser()->Getapellido()+"\\nUsername: "+aux2->getUser()->Getusername()+"\"];\n";
+                else
+                    cuerpo+="\""+fil+"_"+col+"\""+"[shape= record label=\"Nombre: "+aux2->getUser()->Getnombre()+" "+aux2->getUser()->Getapellido()+"\\nUsername: "+aux2->getUser()->Getusername()+"\"];\n";
+            }
+            ranki+=fil+"_"+col+";";
+            /*string fil=aux2->getDepartamento();
+            string col=aux2->getEmpresa();
             if(aux2->getArriba()!=0){
-                string departamentonterior="C"+aux2->getArriba()->getDepartamento();
-            string colanterior="F"+aux2->getArriba()->getEmpresa();
-            enlaces+="\""+fil+col+"\" -> \""+departamentonterior+colanterior+"\"\n";
+                string departamentonterior=aux2->getArriba()->getDepartamento();
+            string colanterior=aux2->getArriba()->getEmpresa();
+            enlaces+="\""+fil+"_"+col+"\" -> \""+departamentonterior+"_"+colanterior+"\"\n";
             }
             if(aux2->getAbajo()!=0){
-                string filsiguiente="C"+aux2->getAbajo()->getDepartamento();
-            string colsiguiente="F"+aux2->getAbajo()->getEmpresa();
-            enlaces+="\""+fil+col+"\" -> \""+filsiguiente+colsiguiente+"\"\n";
+                string filsiguiente=aux2->getAbajo()->getDepartamento();
+            string colsiguiente=aux2->getAbajo()->getEmpresa();
+            enlaces+="\""+fil+"_"+col+"\" -> \""+filsiguiente+"_"+colsiguiente+"\"\n";
             }
             if(aux2->getAnterior()!=0){
-                string departamentonterior="C"+aux2->getAnterior()->getDepartamento();
-            string colanterior="F"+aux2->getAnterior()->getEmpresa();
-            enlaces+="\""+fil+col+"\" -> \""+departamentonterior+colanterior+"\"\n";
+                string departamentonterior=aux2->getAnterior()->getDepartamento();
+            string colanterior=aux2->getAnterior()->getEmpresa();
+            enlaces+="\""+fil+"_"+col+"\" -> \""+departamentonterior+"_"+colanterior+"\"\n";
             }
             if(aux2->getSiguiente()!=0){
-                string filsiguiente="C"+aux2->getSiguiente()->getDepartamento();
-            string colsiguiente="F"+aux2->getSiguiente()->getEmpresa();
-            enlaces+="\""+fil+col+"\" -> \""+filsiguiente+colsiguiente+"\"\n";
+                string filsiguiente=aux2->getSiguiente()->getDepartamento();
+            string colsiguiente=aux2->getSiguiente()->getEmpresa();
+            enlaces+="\""+fil+"_"+col+"\" -> \""+filsiguiente+"_"+colsiguiente+"\"\n";
            // cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+aux2->getLetra()+"\" style=filled fillcolor=yellow group="+aux2->getEmpresa()+"];\n";
-            cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+aux2->getDepartamento()+"\" style=filled fillcolor=blue group="+aux2->getEmpresa()+"];\n";
+            cuerpo+="\""+fil+"_"+col+"\""+"[shape= record label=\""+aux2->getDepartamento()+"\" style=filled fillcolor=Gray group="+aux2->getEmpresa()+"];\n";
             }else{
-                if(aux2->getDepartamento()=="" && aux2->getEmpresa()==""){
-                        cuerpo+="\""+fil+col+"\""+"[shape= record label=\"Raiz\" style=filled fillcolor=gray group=1];\n";
+                if(aux2->getDepartamento()=="a" && aux2->getEmpresa()=="a"){
+                        cuerpo+="\""+fil+"_"+col+"\""+"[shape= record label=\"Raiz\" style=filled fillcolor=gray group=1];\n";
                 }else{
                     if(aux2->getDepartamento()=="")
-                        cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+fil+","+col+"\" style=filled fillcolor=gray group="+aux2->getEmpresa()+"];\n";
+                        cuerpo+="\""+fil+"_"+col+"\""+"[shape= record label=\""+fil+","+col+"\" style=filled fillcolor=gray group="+aux2->getDepartamento()+"];\n";
                     else
-                        cuerpo+="\""+fil+col+"\""+"[shape= record label=\""+fil+","+col+"\" style=filled fillcolor=gray group= 1];\n";
+                        cuerpo+="\""+fil+"_"+col+"\""+"[shape= record label=\""+fil+","+col+"\" style=filled fillcolor=gray group= 1];\n";
                    // cout<<fil<<endl;
                 }
                 }
-                ranki+=fil+col+";";
-                //cout<<fil+col<<endl;
+                ranki+=fil+"_"+col+";";
+                //cout<<fil+col<<endl;*/
             aux2=aux2->getAbajo();
         }
         wolrd+="{rank= same; "+ranki+"}\n";
@@ -450,7 +480,7 @@ void imprimirPorUsuario(string usuario)
     Nodo *aux= raiz;
     while(aux!=0)
     {
-        Nodo *aux2=raiz;
+        Nodo *aux2=aux;
         while(aux2!=0){
             Nodo *aux3= aux2;
             while(aux3!=0)
@@ -479,7 +509,7 @@ void apagarActivo(string id,int numero)
     Nodo *aux= raiz;
     while(aux!=0)
     {
-        Nodo *aux2=raiz;
+        Nodo *aux2=aux;
         while(aux2!=0){
             Nodo *aux3= aux2;
             while(aux3!=0)
@@ -505,7 +535,7 @@ void mostrarActivosMenosLosMios(Usuario *user)
     Nodo *aux= raiz;
     while(aux!=0)
     {
-        Nodo *aux2=raiz;
+        Nodo *aux2=aux;
         while(aux2!=0){
             Nodo *aux3= aux2;
             while(aux3!=0)
@@ -536,7 +566,7 @@ void mostrarActivosRentados(Usuario *user)
     Nodo *aux= raiz;
     while(aux!=0)
     {
-        Nodo *aux2=raiz;
+        Nodo *aux2=aux;
         while(aux2!=0){
             Nodo *aux3= aux2;
             while(aux3!=0)

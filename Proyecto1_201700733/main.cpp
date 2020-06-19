@@ -250,7 +250,13 @@ void moduloAdmin()
             moduloRegistro();
             break;
         case 2:
-
+            cubito->imprimir();
+            todoArbolito="digraph Matriz{ \n "+cubito->getCuerpo()+"\n"+cubito->getEnlaces()+cubito->getWor()+"{rank= same; "+cubito->getGrupo()+"}\n"+"}";
+            graficarReportes(todoArbolito,"matriz");
+            cubito->setCuerpo("");
+            cubito->setEnlaces("");
+            cubito->setGrupo("");
+            todoArbolito="";
             //reportes
             break;
         case 3:
@@ -285,11 +291,12 @@ void moduloSesion(){
     getline(cin,usuario);
     cout<<"Contrasenia"<<endl<<">>";
     getline(cin,contrasenia);
+    cout<<contrasenia;
     cout<<"Departamento"<<endl<<">>";
     getline(cin,departamento);
     cout<<"Empresa"<<endl<<">>";
     getline(cin,empresa);
-    Nodo *aux= cubito->busquedaNodo(departamento,empresa,usuario,contrasenia);
+    Nodo *aux= cubito->busquedaNodo(empresa,departamento,usuario,contrasenia);
     if(aux!=0)
     {
         if(usuario.compare("admin")==0 && contrasenia.compare("admin")==0){

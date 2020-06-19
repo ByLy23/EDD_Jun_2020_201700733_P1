@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1592530846 source:a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\main.cpp
+1592541847 source:a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\main.cpp
 	<iostream>
 	<string>
 	<fstream>
@@ -13,11 +13,11 @@
 1591609485 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\cola.h
 	<iostream>
 
-1592531864 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\arbolavl.h
+1592531976 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\arbolavl.h
 	<iostream>
 	"Activo.h"
 
-1592531655 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\cubodisperso.h
+1592542479 a:\usac\estructuras\injusticia\proyecto 1\proyecto1_201700733\edd\cubodisperso.h
 	"Usuario.h"
 	<iostream>
 	<string>

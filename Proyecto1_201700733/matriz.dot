@@ -1,0 +1,31 @@
+digraph Matriz{ 
+ "a_a"[shape= record label="raiz " group=1];
+"a_a"[shape= record label="Nombre: admin admin\nUsername: admin"];
+"_chi"[shape= record label="chi " group=1];
+"_fai"[shape= record label="fai " group=1];
+"gua_"[shape= record label="gua"];
+"gua_chi"[shape= record label="Nombre: b b\nUsername: b"];
+"fri_"[shape= record label="fri"];
+"fri_fai"[shape= record label="Nombre: b b\nUsername: b"];
+
+"a_a" -> "_chi"
+"a_a" -> "gua_"
+"_chi" -> "_fai"
+"_chi" -> "a_a"
+"_chi" -> "gua_chi"
+"_fai" -> "_chi"
+"_fai" -> "fri_fai"
+"gua_" -> "gua_chi"
+"gua_" -> "fri_"
+"gua_" -> "a_a"
+"gua_chi" -> "gua_"
+"gua_chi" -> "_chi"
+"fri_" -> "fri_fai"
+"fri_" -> "gua_"
+"fri_fai" -> "fri_"
+"fri_fai" -> "_fai"
+{rank= same; a_a;_chi;_fai;}
+{rank= same; gua_;gua_chi;}
+{rank= same; fri_;fri_fai;}
+{rank= same; }
+}
