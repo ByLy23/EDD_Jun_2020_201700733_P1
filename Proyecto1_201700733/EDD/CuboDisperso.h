@@ -181,7 +181,6 @@ class CuboDisperso
                     {
                         if(aux3->getUser()->Getusername().compare(nombre)==0 && aux3->getUser()->Getpass().compare(contra)==0)
                         {
-                            retorno=aux3;
                             break;
                         }
                     }
@@ -191,7 +190,10 @@ class CuboDisperso
         aux2=aux2->getSiguiente();
         }
         if (bandera)
+        {
+            bandera=false;
             break;
+        }
         aux= aux->getAbajo();
     }
     return retorno;
@@ -332,19 +334,16 @@ void crearNodo(Usuario *user,string departamento, string empresa)
     else if(Nodoempresa!=0 && Nododepartamento!=0)
     {
         //estan creados los dos
-        Nodo *busqueda= busquedaNodo(user->Getempresa(),user->Getdepartamento(),user->Getusername(),user->Getpass());
-        if(user->Getusername().compare(busqueda->getUser()->Getusername())==0)
+        if(Nodoempresa->getEmpresa().compare(nuevo->getEmpresa())==0 && Nododepartamento->getDepartamento().compare(nuevo->getDepartamento())==0)
         {
-            string a;
-            cout<<"No se puede Registrar por nombre igual"<<endl;
-            cin>>a;
-        }else if(busqueda==0){
+        Nodo *busqueda= busquedaNodo(user->Getempresa(),user->Getdepartamento(),user->Getusername(),user->Getpass());
+        busqueda->setFrente(nuevo);
+        nuevo->setDetras(busqueda);
+        }
+        else
+        {
         nuevo= insertarempresa(nuevo,Nododepartamento);
         nuevo= insertardepartamento(nuevo,Nodoempresa);
-        }else{
-            busqueda->setFrente(nuevo);
-            nuevo->setDetras(busqueda);
-            busqueda=nuevo;
         }
     }
 }
@@ -502,6 +501,64 @@ void imprimirPorUsuario(string usuario)
         aux= aux->getAbajo();
     }
 }
+void graficarporDep(string dep)
+{
+    bool bandera=false;
+        Nodo *retorno=0;
+    Nodo *aux= raiz;
+    while(aux!=0)
+    {
+        Nodo *aux2=aux;
+        while(aux2!=0){
+            Nodo *aux3= aux2;
+            while(aux3!=0)
+            {
+                bandera=true;
+                if(aux3->getUser()!=0)
+                {
+                    if(dep.compare(aux3->getDepartamento())==0)
+                    {
+                        aux3->getUser()->Getarbolito()->imprimirNodos();
+                    }
+                }
+            aux3=aux3->getFrente();
+        }
+                aux2=aux2->getSiguiente();
+        }
+        if (bandera)
+            break;
+        aux= aux->getAbajo();
+    }
+}
+void graficarporEmp(string dep)
+{
+    bool bandera=false;
+        Nodo *retorno=0;
+    Nodo *aux= raiz;
+    while(aux!=0)
+    {
+        Nodo *aux2=aux;
+        while(aux2!=0){
+            Nodo *aux3= aux2;
+            while(aux3!=0)
+            {
+                bandera=true;
+                if(aux3->getUser()!=0)
+                {
+                    if(dep.compare(aux3->getEmpresa())==0)
+                    {
+                        aux3->getUser()->Getarbolito()->imprimirNodos();
+                    }
+                }
+            aux3=aux3->getFrente();
+        }
+                aux2=aux2->getSiguiente();
+        }
+        if (bandera)
+            break;
+        aux= aux->getAbajo();
+    }
+}
 void apagarActivo(string id,int numero)
 {
     bool bandera=false;
@@ -528,6 +585,7 @@ void apagarActivo(string id,int numero)
         aux= aux->getAbajo();
     }
 }
+
 void mostrarActivosMenosLosMios(Usuario *user)
 {
     bool bandera=false;

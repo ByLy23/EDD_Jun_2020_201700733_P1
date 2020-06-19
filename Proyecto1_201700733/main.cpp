@@ -189,9 +189,9 @@ void moduloRegistro()
     getline(cin,usuario);
     cout<<"Contrasenia"<<endl<<">>";
     getline(cin,contrasenia);
-    cout<<"Departamento"<<endl<<">>";
-    getline(cin,departamento);
     cout<<"Empresa"<<endl<<">>";
+    getline(cin,departamento);
+    cout<<"Departamento"<<endl<<">>";
     getline(cin,empresa);
     cubito->crearNodo(new Usuario(nombre,apellido,usuario, contrasenia, departamento, empresa),departamento,empresa);
     cout<<"Registrado"<<endl;
@@ -233,6 +233,8 @@ void moduloAdmin()
     int opcion=0;
     do{
             system("cls");
+            string dep;
+            string emp;
         cout<<"1. Registrar Usuario"<<endl;
         cout<<"2. Reporte Matriz Dispersa"<<endl;//este toca
         cout<<"3. Reporte de Activos Disponibles por Departamento"<<endl;//por cada usuario del departamento
@@ -260,8 +262,16 @@ void moduloAdmin()
             //reportes
             break;
         case 3:
+            cout<<"que departamento"<<endl;
+            cin>>dep;
+            cin.ignore();
+            cubito->graficarporDep(dep);
             break;
         case 4:
+            cout<<"que departamento"<<endl;
+            cin>>emp;
+            cin.ignore();
+            cubito->graficarporDep(dep);
             break;
         case 5:
             imprimirTransacciones(transacciones);
@@ -291,7 +301,6 @@ void moduloSesion(){
     getline(cin,usuario);
     cout<<"Contrasenia"<<endl<<">>";
     getline(cin,contrasenia);
-    cout<<contrasenia;
     cout<<"Departamento"<<endl<<">>";
     getline(cin,departamento);
     cout<<"Empresa"<<endl<<">>";
