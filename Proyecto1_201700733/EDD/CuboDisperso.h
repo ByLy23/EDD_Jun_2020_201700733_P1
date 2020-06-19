@@ -175,12 +175,12 @@ class CuboDisperso
             {
                 if(aux3->getEmpresa().compare(empresa)==0 && aux3->getDepartamento().compare(departamento)==0)
                 {
-                    retorno=aux3;
-                    bandera=true;
+
                     if(aux3->getUser()!=0)
                     {
                         if(aux3->getUser()->Getusername().compare(nombre)==0 && aux3->getUser()->Getpass().compare(contra)==0)
                         {
+                        retorno=aux3;
                             break;
                         }
                     }
@@ -188,11 +188,6 @@ class CuboDisperso
             aux3=aux3->getFrente();
         }
         aux2=aux2->getSiguiente();
-        }
-        if (bandera)
-        {
-            bandera=false;
-            break;
         }
         aux= aux->getAbajo();
     }
@@ -484,7 +479,6 @@ void imprimirPorUsuario(string usuario)
             Nodo *aux3= aux2;
             while(aux3!=0)
             {
-                bandera=true;
                 if(aux3->getUser()!=0)
                 {
                     if(aux3->getUser()->Getusername().compare(usuario)==0)
@@ -496,8 +490,6 @@ void imprimirPorUsuario(string usuario)
         }
                 aux2=aux2->getSiguiente();
         }
-        if (bandera)
-            break;
         aux= aux->getAbajo();
     }
 }
@@ -513,7 +505,6 @@ void graficarporDep(string dep)
             Nodo *aux3= aux2;
             while(aux3!=0)
             {
-                bandera=true;
                 if(aux3->getUser()!=0)
                 {
                     if(dep.compare(aux3->getDepartamento())==0)
@@ -525,8 +516,6 @@ void graficarporDep(string dep)
         }
                 aux2=aux2->getSiguiente();
         }
-        if (bandera)
-            break;
         aux= aux->getAbajo();
     }
 }
@@ -542,7 +531,6 @@ void graficarporEmp(string dep)
             Nodo *aux3= aux2;
             while(aux3!=0)
             {
-                bandera=true;
                 if(aux3->getUser()!=0)
                 {
                     if(dep.compare(aux3->getEmpresa())==0)
@@ -554,8 +542,6 @@ void graficarporEmp(string dep)
         }
                 aux2=aux2->getSiguiente();
         }
-        if (bandera)
-            break;
         aux= aux->getAbajo();
     }
 }
@@ -580,8 +566,6 @@ void apagarActivo(string id,int numero)
         }
                 aux2=aux2->getSiguiente();
         }
-        if (bandera)
-            break;
         aux= aux->getAbajo();
     }
 }
@@ -611,8 +595,6 @@ void mostrarActivosMenosLosMios(Usuario *user)
         }
                 aux2=aux2->getSiguiente();
         }
-        if (bandera)
-            break;
         aux= aux->getAbajo();
     }
 }
@@ -641,8 +623,6 @@ void mostrarActivosRentados(Usuario *user)
         }
                 aux2=aux2->getSiguiente();
         }
-        if (bandera)
-            break;
         aux= aux->getAbajo();
     }
 }

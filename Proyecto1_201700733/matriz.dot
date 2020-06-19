@@ -1,19 +1,31 @@
 digraph Matriz{ 
  "a_a"[shape= record label="raiz " group=1];
 "a_a"[shape= record label="Nombre: admin admin\nUsername: admin"];
-"_y"[shape= record label="y " group=1];
+"_n"[shape= record label="n " group=1];
+"_b"[shape= record label="b " group=1];
 "b_"[shape= record label="b"];
-"b_y"[shape= record label="Nombre: b b\nUsername: b"];
+"b_n"[shape= record label="Nombre: b b\nUsername: b"];
+"n_"[shape= record label="n"];
+"n_b"[shape= record label="Nombre: b b\nUsername: b"];
 
-"a_a" -> "_y"
+"a_a" -> "_n"
 "a_a" -> "b_"
-"_y" -> "a_a"
-"_y" -> "b_y"
-"b_" -> "b_y"
+"_n" -> "_b"
+"_n" -> "a_a"
+"_n" -> "b_n"
+"_b" -> "_n"
+"_b" -> "n_b"
+"b_" -> "b_n"
+"b_" -> "n_"
 "b_" -> "a_a"
-"b_y" -> "b_"
-"b_y" -> "_y"
-{rank= same; a_a;_y;}
-{rank= same; b_;b_y;}
+"b_n" -> "b_"
+"b_n" -> "_n"
+"n_" -> "n_b"
+"n_" -> "b_"
+"n_b" -> "n_"
+"n_b" -> "_b"
+{rank= same; a_a;_n;_b;}
+{rank= same; b_;b_n;}
+{rank= same; n_;n_b;}
 {rank= same; }
 }

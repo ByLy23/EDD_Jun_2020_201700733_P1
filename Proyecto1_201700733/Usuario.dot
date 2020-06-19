@@ -1,14 +1,4 @@
 digraph Colapalabras{ 
  linkdir=LR 
-"mMTcg1EHuB2kB36"[shape= circle style=filled fillcolor=green label="mMTcg1EHuB2kB36\nb\nb\n"];
-"orUMCpP7LnEEJ83"[shape= circle style=filled fillcolor=green label="orUMCpP7LnEEJ83\nb\nb\n"];
-"cG0RSFct30rPa51"[shape= circle style=filled fillcolor=green label="cG0RSFct30rPa51\nb\nb\n"];
-"mMTcg1EHuB2kB36"[shape= circle style=filled fillcolor=green label="mMTcg1EHuB2kB36\nb\nb\n"];
-"orUMCpP7LnEEJ83"[shape= circle style=filled fillcolor=red label="orUMCpP7LnEEJ83\nb\nb\n"];
-"cG0RSFct30rPa51"[shape= circle style=filled fillcolor=green label="cG0RSFct30rPa51\nb\nb\n"];
 
-"mMTcg1EHuB2kB36"->"orUMCpP7LnEEJ83"
-"mMTcg1EHuB2kB36"->"cG0RSFct30rPa51"
-"mMTcg1EHuB2kB36"->"orUMCpP7LnEEJ83"
-"mMTcg1EHuB2kB36"->"cG0RSFct30rPa51"
 }

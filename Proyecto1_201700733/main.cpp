@@ -189,9 +189,9 @@ void moduloRegistro()
     getline(cin,usuario);
     cout<<"Contrasenia"<<endl<<">>";
     getline(cin,contrasenia);
-    cout<<"Empresa"<<endl<<">>";
-    getline(cin,departamento);
     cout<<"Departamento"<<endl<<">>";
+    getline(cin,departamento);
+    cout<<"Empresa"<<endl<<">>";
     getline(cin,empresa);
     cubito->crearNodo(new Usuario(nombre,apellido,usuario, contrasenia, departamento, empresa),departamento,empresa);
     cout<<"Registrado"<<endl;
@@ -212,6 +212,22 @@ void imprimirTransacciones(ListaDobleCircular<Trans*> *lista)
         {
             enlaceLista+="nodo"+to_string(j)+" -> nodo"+ to_string(0)+"\n";
         }
+        if(j<lista->getSize())
+        {
+        enlaceLista+="nodo"+to_string(i)+" -> nodo"+ to_string(j)+"\n";
+        }
+        if(k>=0){
+        enlaceLista+="nodo"+to_string(i)+" -> nodo"+ to_string(k)+"\n";
+        }
+    }
+}
+void imprimirP(ListaDoble<Trans*> *lista)
+{
+    for(int i=0; i<lista->getSize(); i++)
+    {
+        int j=i+1;
+        int k=i-1;
+        cuerpoLista+="nodo"+to_string(i)+"[shape= record label=\""+lista->obtener_at(i)->Getid()+"\\nID del Activo: "+ lista->obtener_at(i)->GetidActivo()+"\\nLo alquilo: "+lista->obtener_at(i)->GetUsername()+"\\nLo alquilo para: "+lista->obtener_at(i)->Gettiempo()+"\\nFecha de alquiler: "+lista->obtener_at(i)->Getfecha()+"\"];\n";
         if(j<lista->getSize())
         {
         enlaceLista+="nodo"+to_string(i)+" -> nodo"+ to_string(j)+"\n";
@@ -268,10 +284,10 @@ void moduloAdmin()
             cubito->graficarporDep(dep);
             break;
         case 4:
-            cout<<"que departamento"<<endl;
+            cout<<"que Empresa"<<endl;
             cin>>emp;
             cin.ignore();
-            cubito->graficarporDep(dep);
+            cubito->graficarporEmp(dep);
             break;
         case 5:
             imprimirTransacciones(transacciones);
@@ -285,6 +301,7 @@ void moduloAdmin()
             moduloImprimirAVL();
             break;
         case 7:
+            imprimirP(ActivosRentados);
             break;
         case 8:
             break;

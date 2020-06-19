@@ -1,13 +1,4 @@
 digraph ListaCircular{ 
  linkdir=LR 
-nodo0[shape= record label="vdiQa0M132jSWAq\nID del Activo: M0OOPTcYsWqo9Q5\nLo alquilo: n\nLo alquilo para: 2\nFecha de alquiler: 18/06/20"];
-nodo1[shape= record label="PuHC50426SJ8A3f\nID del Activo: 4X77Lz85ZPpR0O1\nLo alquilo: n\nLo alquilo para: 56\nFecha de alquiler: 18/06/20"];
-nodo2[shape= record label="STHnY1j30NA0mOU\nID del Activo: 46mI3R5S5krer16\nLo alquilo: n\nLo alquilo para: 44\nFecha de alquiler: 18/06/20"];
 
-nodo0 -> nodo2
-nodo0 -> nodo1
-nodo2 -> nodo0
-nodo1 -> nodo2
-nodo1 -> nodo0
-nodo2 -> nodo1
 }
